@@ -241,6 +241,11 @@ public class CanvasControllerGV : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update(){
+
+		if (Input.GetMouseButtonDown(1)) {
+			ChangeCanvas(0);	
+		}
+
 		if(showItemOptions && !inInventory){
 			if(item.tag.Equals("door")){
 				Vector3 pos = Camera.main.WorldToScreenPoint(item.transform.position+new Vector3(0,1,0));
