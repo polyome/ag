@@ -14,7 +14,7 @@ public class TrackingCameraScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("PlayerModel");
-		trackBox = new Rect (Screen.width/3,Screen.height/3,Screen.width/3,Screen.height/3);
+		trackBox = new Rect (Screen.width/10,Screen.height/10,Screen.width/10,Screen.height/10);
 	
 	}
 	
