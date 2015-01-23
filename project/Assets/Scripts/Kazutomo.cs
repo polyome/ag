@@ -11,10 +11,12 @@ public class Kazutomo : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Space)) {
-						GetComponent<NavMeshAgent> ().speed = 8.0f;
+				GetComponent<NavMeshAgent> ().speed = 8.0f;
+//				GetComponent<Animator>().SetFloat("Speed",8.0);
 				}
-		if (Input.GetKeyUp (KeyCode.Space)) {
-						GetComponent<NavMeshAgent> ().speed = 3.5f;
-				}
+		if (Input.GetKeyUp (KeyCode.Space)) {				
+				GetComponent<NavMeshAgent> ().speed = 3.5f;
+//				GetComponent<Animator>().SetFloat("Speed",3.5);
+		}
 	}
 }
