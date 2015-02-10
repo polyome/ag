@@ -5,7 +5,7 @@ public class Movement : MonoBehaviour {
 	Animator animator;
 	Vector3 targetPos;
 	Vector3 currentPos;
-	public float speed = 0.01f;
+	//public float speed = 0.01f;
 	float distance;
 	public bool turning = false;
 	Vector3 newRot;
@@ -33,7 +33,7 @@ public class Movement : MonoBehaviour {
 		//Debug.Log ("closest nav x:"+closestNavPoint.position.x.ToString()+" y:"+closestNavPoint.position.y.ToString()+" z:"+closestNavPoint.position.z.ToString());
 		GameObject.Find("Character").transform.LookAt (closestNavPoint.position);
 		agent.SetDestination (closestNavPoint.position);
-		animator.SetFloat ("Speed", 1);
+		animator.SetFloat ("Speed", 2);
 		/*
 		moving = true;
 		*/

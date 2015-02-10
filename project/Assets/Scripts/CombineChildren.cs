@@ -6,6 +6,7 @@ public class CombineChildren : MonoBehaviour {
 	
 	void Start()
 	{
+
 		Matrix4x4 myTransform = transform.worldToLocalMatrix;
 		Dictionary<Material, List<CombineInstance>> combines = new Dictionary<Material, List<CombineInstance>>();
 		MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
@@ -41,6 +42,7 @@ public class CombineChildren : MonoBehaviour {
 			
 			var renderer = go.AddComponent<MeshRenderer>();
 			renderer.material = m;
+
 		}
 	}
 }

@@ -18,7 +18,7 @@ public class Blinker : MonoBehaviour {
 		while ( true ) {
 			this.gameObject.light.enabled = !this.gameObject.light.enabled;
 			var = Random.Range(0.1f, 0.75f);
-			yield return new WaitForSeconds(1f);
+			yield return new WaitForSeconds(var);
 		}
 	}
 }

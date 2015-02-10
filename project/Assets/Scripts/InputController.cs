@@ -6,6 +6,7 @@ public class InputController : MonoBehaviour {
 	//public float cameraSpeed = 20.0f;
 	public float pickupRadius = 2.0f;
 	public GameObject player;
+	private Camera FPCamera;	//kayaba changed
 	GameObject canvasControl;
 	GameObject itemOptions;
 	EventSystem eventSystem;
@@ -24,74 +25,139 @@ public class InputController : MonoBehaviour {
 		eventSystem = GameObject.FindGameObjectWithTag ("EventSystem").GetComponent<EventSystem>();
 		itemOptions = GameObject.FindGameObjectWithTag ("ItemOptions");
 		dragging = false;
+		this.FPCamera = GameObject.FindGameObjectWithTag ("FPCamera").GetComponent<Camera> ();	//kayaba changed
 	}
 
 	//stuff to do when user clicked left mouse button
 	void LeftClick(){
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		Ray ray;
+		if (this.FPCamera.enabled == false)	//kayaba changed
+			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		else
+			ray = this.FPCamera.ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
-		Physics.Raycast(ray, out hit, 10000);
+		Physics.Raycast (ray, out hit, 10000);
 		Vector3 targetPos;
-		switch(hit.transform.tag){
-		case "item":
-			if(Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position,hit.transform.position)<pickupRadius){
-				canvasControl.GetComponent<CanvasControllerGV>().ShowItemOptions(hit.collider.gameObject);
-	
-			}else{
-				if(player.transform.parent.GetComponent<PlayerThoughts>().inPod==false){
-					player.GetComponent<Movement>().Move(hit.collider.gameObject);
-				}else{
-					GetComponent<GUIScript>().PlayerThoughts("I need to get out of this pod first.");
+		
+		if (this.FPCamera.enabled == false) {	//kayaba changed
+			this.pickupRadius = 2.0f;
+			switch (hit.transform.tag) {
+			case "item":
+				Debug.Log ("show item option_2");
+				if (Vector3.Distance (GameObject.FindGameObjectWithTag ("Player").transform.position, hit.transform.position) < pickupRadius) {
+					canvasControl.GetComponent<CanvasControllerGV> ().ShowItemOptions (hit.collider.gameObject);
+					
+				} else {
+					if (player.transform.parent.GetComponent<PlayerThoughts> ().inPod == false) {
+						player.GetComponent<Movement> ().Move (hit.collider.gameObject);
+					} else {
+						GetComponent<GUIScript> ().PlayerThoughts ("I need to get out of this pod first.");
+					}
 				}
-			}
-			break;
-		case "locker":
-			if(Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position,hit.transform.position)<pickupRadius){
-				canvasControl.GetComponent<CanvasControllerGV>().ShowItemOptions(hit.collider.gameObject);
-				
-			}else{
-				player.GetComponent<Movement>().Move(hit.collider.gameObject);
-			}
-			break;
-		case "door":
-			if(Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position,hit.transform.position)<pickupRadius){
-				canvasControl.GetComponent<CanvasControllerGV>().ShowItemOptions(hit.collider.gameObject);
-				
-			}else{
-				player.GetComponent<Movement>().Move(hit.collider.gameObject);
-			}
-			break;
-		case "map":
-			if(Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position,hit.transform.position)<pickupRadius+1){
-				GetComponent<GUIScript>().ShowContextMenu(hit);
-			}
-			break;
-		case "NPC":
-			switch(hit.collider.name){
-			case "TestNPC":
-				hit.collider.GetComponent<TestNPCScript>().Talk();
-				GetComponent<GUIScript>().talkingNPC = hit.collider.gameObject;
 				break;
-			default:
-				break;
-			}
-			break;
-		default :
-			if(player.transform.parent.GetComponent<PlayerThoughts>().inPod==false){
-				targetPos = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-				player.GetComponent<Movement>().Move(targetPos);
-				if(canvasControl.GetComponent<CanvasControllerGV>().showItemOptions){
-					canvasControl.GetComponent<CanvasControllerGV>().HideItemOptions();
+			case "locker":
+				if (Vector3.Distance (GameObject.FindGameObjectWithTag ("Player").transform.position, hit.transform.position) < pickupRadius) {
+					canvasControl.GetComponent<CanvasControllerGV> ().ShowItemOptions (hit.collider.gameObject);
+					
+				} else {
+					player.GetComponent<Movement> ().Move (hit.collider.gameObject);
 				}
+				break;
+			case "door":
+				if (Vector3.Distance (GameObject.FindGameObjectWithTag ("Player").transform.position, hit.transform.position) < pickupRadius) {
+					canvasControl.GetComponent<CanvasControllerGV> ().ShowItemOptions (hit.collider.gameObject);
+					
+				} else {
+					player.GetComponent<Movement> ().Move (hit.collider.gameObject);
+				}
+				break;
+			case "map":
+				if (Vector3.Distance (GameObject.FindGameObjectWithTag ("Player").transform.position, hit.transform.position) < pickupRadius + 1) {
+					GetComponent<GUIScript> ().ShowContextMenu (hit);
+				}
+				break;
+			case "NPC":
+				switch (hit.collider.name) {
+				case "TestNPC":
+					hit.collider.GetComponent<TestNPCScript> ().Talk ();
+					GetComponent<GUIScript> ().talkingNPC = hit.collider.gameObject;
+					break;
+				default:
+					break;
+				}
+				break;
+			default :
+				if (player.transform.parent.GetComponent<PlayerThoughts> ().inPod == false) { //kayaba changed
+					targetPos = new Vector3 (hit.point.x, hit.point.y, hit.point.z);
+					player.GetComponent<Movement> ().Move (targetPos);
+					if (canvasControl.GetComponent<CanvasControllerGV> ().showItemOptions) {
+						canvasControl.GetComponent<CanvasControllerGV> ().HideItemOptions ();
+					}
+				}
+				break;
 			}
-			//Debug.Log("Moving");
-			break;
+		} else {
+			this.pickupRadius = 3.0f;
+			switch (hit.transform.tag) {
+			case "item":
+				Debug.Log ("show item option_2");
+				if (Vector3.Distance (GameObject.FindGameObjectWithTag ("Player").transform.position, hit.transform.position) < pickupRadius) {
+					canvasControl.GetComponent<CanvasControllerGV> ().ShowItemOptions (hit.collider.gameObject);
+					
+				} else {
+					if (player.transform.parent.GetComponent<PlayerThoughts> ().inPod == false) {
+						//player.GetComponent<Movement> ().Move (hit.collider.gameObject);
+					} else {
+						GetComponent<GUIScript> ().PlayerThoughts ("I need to get out of this pod first.");
+					}
+				}
+				break;
+			case "locker":
+				if (Vector3.Distance (GameObject.FindGameObjectWithTag ("Player").transform.position, hit.transform.position) < pickupRadius) {
+					canvasControl.GetComponent<CanvasControllerGV> ().ShowItemOptions (hit.collider.gameObject);
+					
+				} else {
+					//player.GetComponent<Movement> ().Move (hit.collider.gameObject);
+				}
+				break;
+			case "door":
+				if (Vector3.Distance (GameObject.FindGameObjectWithTag ("Player").transform.position, hit.transform.position) < pickupRadius) {
+					canvasControl.GetComponent<CanvasControllerGV> ().ShowItemOptions (hit.collider.gameObject);
+					
+				} else {
+					//player.GetComponent<Movement> ().Move (hit.collider.gameObject);
+				}
+				break;
+			case "map":
+				if (Vector3.Distance (GameObject.FindGameObjectWithTag ("Player").transform.position, hit.transform.position) < pickupRadius + 1) {
+					GetComponent<GUIScript> ().ShowContextMenu (hit);
+				}
+				break;
+			case "NPC":
+				switch (hit.collider.name) {
+				case "TestNPC":
+					hit.collider.GetComponent<TestNPCScript> ().Talk ();
+					GetComponent<GUIScript> ().talkingNPC = hit.collider.gameObject;
+					break;
+				default:
+					break;
+				}
+				break;
+			default :
+				if (player.transform.parent.GetComponent<PlayerThoughts> ().inPod == false) { //kayaba changed
+					//targetPos = new Vector3 (hit.point.x, hit.point.y, hit.point.z);
+					//player.GetComponent<Movement> ().Move (targetPos);
+					if (canvasControl.GetComponent<CanvasControllerGV> ().showItemOptions) {
+						canvasControl.GetComponent<CanvasControllerGV> ().HideItemOptions ();
+					}
+				}
+				break;
+			}
 		}
 	}
 
 	//close examine view
 	public void CloseExamine(){
-		GetComponent<GUIScript>().examineCamera.enabled =false;
 		if(GetComponent<GUIScript>().showExamine){
 			int index = canvasControl.GetComponent<CanvasControllerGV>().itemNumber;
 			GetComponent<InventoryScript>().GetInventory()[index].GetComponent<ItemScript>().rotating = true;
@@ -107,7 +173,7 @@ public class InputController : MonoBehaviour {
 		player.transform.parent.GetComponent<NavMeshAgent>().enabled=true;
 		player.GetComponent<CapsuleCollider>().enabled=true;
 		player.GetComponent<Rigidbody>().useGravity = true;
-		player.GetComponent<Rigidbody>().constraints &= ~RigidbodyConstraints.FreezePositionY;
+		player.GetComponent<Rigidbody>().constraints &= RigidbodyConstraints.FreezeAll;
 		player.transform.parent.transform.rotation = Quaternion.Euler( new Vector3 (0,0,0));
 		//player.transform.localPosition=new Vector3(0,0.2f,0);
 	}

@@ -1,22 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Kazutomo : MonoBehaviour {
+public class Kazutomo : MonoBehaviour
+{
+		// Use this for initialization
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.Space)) {
-				GetComponent<NavMeshAgent> ().speed = 8.0f;
-//				GetComponent<Animator>().SetFloat("Speed",8.0);
-				}
-		if (Input.GetKeyUp (KeyCode.Space)) {				
-				GetComponent<NavMeshAgent> ().speed = 3.5f;
-//				GetComponent<Animator>().SetFloat("Speed",3.5);
+		Animator animator;
+		NavMeshAgent agent;
+
+		void Start ()
+		{
+		animator = GetComponent<Animator>();
+		agent = GameObject.Find ("Character").GetComponent<NavMeshAgent> ();
+		}
+
+		// Update is called once per frame
+		void Update ()
+	{			if (Input.GetKeyDown (KeyCode.LeftShift)) {
+						agent.speed = 4.0f;
+						animator.SetBool("Run",true);
+		}
+				else if (Input.GetKeyUp (KeyCode.LeftShift)) {
+						agent.speed = 2.0f;
+						animator.SetBool("Run",false);
 		}
 	}
 }

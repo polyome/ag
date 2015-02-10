@@ -65,7 +65,6 @@ public class GUIScript : MonoBehaviour {
 		showItemMenu = false;
 		showPauseMenu = false;
 		//showPlayerThoughts = false;
-		examineCamera.enabled = false;
 		dialogueBox = new Rect (Screen.width / 6, Screen.height / 4*3, Screen.width / 6 * 4, Screen.height / 4);
 		dialogueBack = Instantiate(dialogueBackground,Vector3.zero,new Quaternion(0,0,0,0))as GUITexture;
 		dialogueBack.pixelInset = new Rect(dialogueBox.x,Screen.height-dialogueBox.y-dialogueBox.height,dialogueBox.width,dialogueBox.height);
@@ -272,9 +271,16 @@ public class GUIScript : MonoBehaviour {
 			thoughtStyle.font = spaceFont;
 			Vector3 screenPos;
 			if(player.GetComponent<PlayerThoughts>().inPod){
-				screenPos = Camera.main.WorldToScreenPoint(player.transform.position+new Vector3(0,1.3f,0));
+				//kayaba changed
+				if(GameObject.FindGameObjectWithTag("FPCamera").GetComponent<Camera>().enabled == false)
+					screenPos = Camera.main.WorldToScreenPoint(player.transform.position+new Vector3(0,1.3f,0));
+				else
+					screenPos = GameObject.FindGameObjectWithTag("FPCamera").GetComponent<Camera>().WorldToScreenPoint(player.transform.position+new Vector3(0,1.3f,0));
 			}else{
-				screenPos = Camera.main.WorldToScreenPoint(player.transform.position+new Vector3(0,2.5f,0));
+				if(GameObject.FindGameObjectWithTag("FPCamera").GetComponent<Camera>().enabled == false)
+					screenPos = Camera.main.WorldToScreenPoint(player.transform.position+new Vector3(0,2.5f,0));
+				else
+					screenPos = GameObject.FindGameObjectWithTag("FPCamera").GetComponent<Camera>().ViewportToScreenPoint(new Vector3(0.5f,0.7f,0f));
 			}
 			Rect thoughtBox = new Rect(screenPos.x-150,Screen.height-screenPos.y-20,300,100);
 			GUI.Label(thoughtBox,displayedText,thoughtStyle);

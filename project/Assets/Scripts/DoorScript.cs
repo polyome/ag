@@ -47,7 +47,7 @@ public class DoorScript : MonoBehaviour {
 				audio.PlayOneShot(audio1);
 				audio.PlayOneShot(audio2);
 				anim.Rewind();
-				anim[anim1.name].speed = 1.0f;
+				anim[anim1.name].speed = 3.0f;
 				anim.Play(anim1.name);
 				StartCoroutine (Test());
 			}
@@ -76,7 +76,7 @@ public class DoorScript : MonoBehaviour {
 			//close door
 			//play sound
 			audio.PlayOneShot(audio1);
-			anim[anim1.name].speed = -1.0f;
+			anim[anim1.name].speed = -3.0f;
 			anim [anim1.name].time = anim [anim1.name].length;
 			anim.Play (anim1.name);
 		}

@@ -1,12 +1,12 @@
 position
-48.19164
-0.1383828
-18.2471
+50.94578
+0.08001499
+13.39625
 rotation
 0
-0.9119465
+-0.03274882
 0
-0.4103092
+0.9994636
 TestNPC
 
 playerThoughts
@@ -16,11 +16,6 @@ note
 aimeephoto
 destroyedItems
 bandages
-pillbottle
 journal
 Finding medicine
 I really need to find some painkillers. I think there should be some in the medical room.
-Found some medicine
-Picked up some painkillers at the medical facility.
-Contact the crew
-I should try to contact the rest of the crew. There's nobody in the pods so they should be awake.
