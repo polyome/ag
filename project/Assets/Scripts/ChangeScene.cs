@@ -7,6 +7,7 @@ public class ChangeScene : MonoBehaviour {
 	public GameObject credits;
 	string[] newGame;
 	string path;
+	static bool nowPlaying =false;
 
 	/*
 	private GameObject GameViewCanvas;
@@ -19,6 +20,11 @@ public class ChangeScene : MonoBehaviour {
 		Time.timeScale = 1;
 		newGame = new string[1];
 		path = System.Environment.CurrentDirectory;
+
+		if (Application.loadedLevelName == "credit") {
+						Debug.Log (nowPlaying);
+						Credits ();
+				}
 
 		/*
 		GameViewCanvas =  GameObject.FindGameObjectWithTag ("GameViewCanvas");
@@ -52,14 +58,15 @@ public class ChangeScene : MonoBehaviour {
 		Application.LoadLevel("ship");
 	}
 
-	public void OtionsButton(){
-
-	}
-
 	public void Credits(){
 		mainMenu.SetActive (false);
 		credits.SetActive (true);
 		credits.GetComponent<Credits> ().RollCredits ();
+	}
+
+	void Update(){
+		if ((Input.GetMouseButton (0) || Input.GetMouseButton (1) || Input.GetMouseButton (2))&& Application.loadedLevelName == "credit")
+				Application.LoadLevel ("main menu");
 	}
 
 	public void Exit(){

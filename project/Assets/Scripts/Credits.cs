@@ -9,6 +9,8 @@ public class Credits : MonoBehaviour {
 	Vector3 startPosition;
 	Quaternion startRotation;
 
+	static int flag = 0;
+
 	// Use this for initialization
 	void Start () {
 
@@ -39,6 +41,9 @@ public class Credits : MonoBehaviour {
 		yield return(new WaitForSeconds(5f));
 		credits[creditIndex].SetActive (false);
 		if(creditIndex==credits.Length-1){
+			if(Application.loadedLevelName=="credit"){
+				Application.LoadLevel("main menu");
+			}
 			camera.transform.position=startPosition;
 			camera.transform.rotation=startRotation;
 			StopAllCoroutines();
@@ -57,6 +62,6 @@ public class Credits : MonoBehaviour {
 			StopAllCoroutines();
 			mainMenu.SetActive(true);
 			gameObject.SetActive(false);
-		}	
+		}
 	}
 }

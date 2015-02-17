@@ -8,6 +8,8 @@ public class InventoryScript : MonoBehaviour {
 	public GameObject bandage;
 	public GameObject note;
 	public GameObject aimeePhoto;
+	public bool usePill = false;
+	public bool pickCube = false;
 
 	Transform newCamera;
 	// Use this for initialization
@@ -47,6 +49,7 @@ public class InventoryScript : MonoBehaviour {
 	public void pickup(GameObject item){
 		//item.transform.position = new Vector3(inventory.Count *5,-10,0);
 		//Debug.Log ("Addind "+item.ToString()+" to inventory");
+
 		inventory.Add(item);
 		item.GetComponent<Rigidbody>().useGravity = false;
 		item.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;

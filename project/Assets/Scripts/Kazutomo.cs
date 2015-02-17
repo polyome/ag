@@ -18,11 +18,11 @@ public class Kazutomo : MonoBehaviour
 		void Update ()
 	{			if (Input.GetKeyDown (KeyCode.LeftShift)) {
 						agent.speed = 4.0f;
-						animator.SetBool("Run",true);
+						animator.SetFloat("Speed",4.0f);
 		}
 				else if (Input.GetKeyUp (KeyCode.LeftShift)) {
 						agent.speed = 2.0f;
-						animator.SetBool("Run",false);
+						animator.SetFloat("Speed",1.4f);
 		}
 	}
 }

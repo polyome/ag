@@ -7,7 +7,7 @@ public class move3 : MonoBehaviour {
 	private float runSpeed = 8.0f;
 	//private float jumpspeed = 5.0f;
 	private float gravity = 20.0f;
-	
+	private Animator moveAnime;
 	
 	private Vector3 moveDirection = Vector3.zero;
 	private CharacterController controller;
@@ -15,6 +15,7 @@ public class move3 : MonoBehaviour {
 	public void Start()
 	{
 		controller = GetComponent<CharacterController>();
+		this.moveAnime = GameObject.FindGameObjectWithTag ("PlayerModel").GetComponent<Animator> ();
 	}
 	
 	public void Update()
@@ -33,6 +34,8 @@ public class move3 : MonoBehaviour {
 				moveDirection.y = jumpspeed;
 			}*/
 		}
+
+		moveAnime.SetFloat ("Speed",0.0f);
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move (moveDirection * Time.deltaTime);
 	}

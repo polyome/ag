@@ -22,6 +22,7 @@ public class CanvasControllerGV : MonoBehaviour
 		public Texture2D useWithCursor;
 		public bool targetingUse;
 		GameObject player;
+		bool usePill = false;
 
 		// Use this for initialization
 		void Start ()
@@ -109,6 +110,11 @@ public class CanvasControllerGV : MonoBehaviour
 								manager.GetComponent<GUIScript> ().PlayerThoughts ("This should help.");
 								manager.GetComponent<StoryController> ().AddJournalEntry ("Found some medicine", "Picked up some painkillers at the medical facility.");
 								manager.GetComponent<StoryController> ().AddJournalEntry ("Contact the crew", "I should try to contact the rest of the crew. There's nobody in the pods so they should be awake.");
+								usePill = true;
+								break;
+						case "Cube":
+								if (usePill == true)
+										Application.LoadLevel ("credit");
 								break;
 						default:
 								break;

@@ -2,11 +2,12 @@
 using System.Collections;
 
 public class TimeLimit : MonoBehaviour {
-	
-	int second;
-	int minute;
+	ChangeScene crd;
+
+	public int second;
+	public int minute;
 	float time;
-	
+
 	// Use this for initialization
 	private void SecondReset(){
 		time = 60;
@@ -20,10 +21,8 @@ public class TimeLimit : MonoBehaviour {
 	void Update () {
 		
 		if (minute == 0 && second == 0) {
-			//時間切れになった時
 			guiText.text = minute.ToString () + ":0"+second.ToString();
-			Application.LoadLevel("main menu");
-			return;
+			Application.LoadLevel("credit");
 		}
 		
 		
@@ -49,7 +48,5 @@ public class TimeLimit : MonoBehaviour {
 				guiText.text = minute.ToString () + ":"+second.ToString();
 			}
 		}
-		
-		
 	}
 }

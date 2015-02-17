@@ -6,6 +6,9 @@ public class ChangeCamera : MonoBehaviour {	//changed point by keita
 	private Camera FPCamera;
 	private NavMeshAgent navMeshAg;
 	private move3 move3;
+	private GUIScript GS;
+	private Animator moveSpeed;
+	private Movement movement;
 	//private CharacterMotor characterMotor;
 	//private FPSInputController FPSInputController;
 
@@ -21,20 +24,25 @@ public class ChangeCamera : MonoBehaviour {	//changed point by keita
 		this.FPSInputController.enabled = false;*/
 		this.FPCamera.enabled = false;
 		this.move3.enabled = false;
+		GS = GameObject.FindGameObjectWithTag ("GameController").GetComponent<GUIScript> ();
+		this.moveSpeed = GameObject.FindGameObjectWithTag("PlayerModel").GetComponent<Animator> ();
+		this.movement = GameObject.FindGameObjectWithTag ("PlayerModel").GetComponent<Movement> ();
 	}
 	
-	// Update is called once per frame
+	// Update is called once per framec
 	void Update () {
 		//kayaba changed 
 		if(GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerThoughts>().inPod) return;
-		if(Input.GetKeyDown(KeyCode.C)){
+
+		if(Input.GetKeyDown(KeyCode.C) && !GS.showInventory){
+		
 			if(this.mainCamera.enabled){
 				this.mainCamera.enabled = false;
 				this.FPCamera.enabled = true;
 				this.navMeshAg.enabled = false;
 				this.move3.enabled = true;
 				/*this.characterMotor.lastPosition = this.FPCamera.transform.position;
-				this.characterMotor.enabled = true;
+				this.characterMotor.enabled = true;.
 				this.FPSInputController.enabled = true;*/
 
 			}else{
@@ -42,10 +50,11 @@ public class ChangeCamera : MonoBehaviour {	//changed point by keita
 				this.FPCamera.enabled = false;
 				this.move3.enabled = false;
 				this.navMeshAg.enabled = true;
-
+				movement.closestNavPoint.position = transform.position;
 				/*this.characterMotor.enabled = false;
 				this.FPSInputController.enabled = false;*/
 			}
+			this.moveSpeed.SetFloat("Speed",0.0f);
 	}
 		//kayaba changed e
 }

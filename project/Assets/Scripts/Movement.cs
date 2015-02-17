@@ -1,92 +1,126 @@
 ﻿using UnityEngine;
 using System.Collections;
-public class Movement : MonoBehaviour {
+public class Movement : MonoBehaviour
+{
 
-	Animator animator;
-	Vector3 targetPos;
-	Vector3 currentPos;
-	//public float speed = 0.01f;
-	float distance;
-	public bool turning = false;
-	Vector3 newRot;
-	bool moving;
-	bool showOptionsAfterMoving;
-	RaycastHit hit;
-	NavMeshAgent agent;
-	NavMeshHit closestNavPoint;
-	GameObject canvasControl;
-	GameObject item;
+		Animator animator;
+		Vector3 targetPos;
+		Vector3 currentPos;
+		//public float speed = 0.01f;
+		float distance;
+		public bool turning = false;
+		Vector3 newRot;
+		bool moving;
+		bool showOptionsAfterMoving;
+		RaycastHit hit;
+		NavMeshAgent agent;
+		public NavMeshHit closestNavPoint;
+		GameObject canvasControl;
+		GameObject item;
 
-	void Start () {
-		currentPos = transform.position;
-		animator = GetComponent<Animator>();
-		targetPos = currentPos;
-		moving = false;
-		agent = GameObject.Find ("Character").GetComponent<NavMeshAgent> ();
-		canvasControl = GameObject.FindGameObjectWithTag ("canvasControl");
-		showOptionsAfterMoving = false;
-	}
-	public void Move(Vector3 targetPos){
-		//Debug.Log ("target: x="+hit.point.x.ToString()+" y="+hit.point.y.ToString()+" z="+hit.point.z.ToString());
-		NavMesh.SamplePosition (targetPos,out closestNavPoint,1000,1);
-		//Debug.Log ("raycast hit x:"+targetPos.x.ToString()+" y:"+targetPos.y.ToString()+" z:"+targetPos.z.ToString());
-		//Debug.Log ("closest nav x:"+closestNavPoint.position.x.ToString()+" y:"+closestNavPoint.position.y.ToString()+" z:"+closestNavPoint.position.z.ToString());
-		GameObject.Find("Character").transform.LookAt (closestNavPoint.position);
-		agent.SetDestination (closestNavPoint.position);
-		animator.SetFloat ("Speed", 2);
-		/*
+		void Start ()
+		{
+				currentPos = transform.position;
+				animator = GetComponent<Animator> ();
+				targetPos = currentPos;
+				moving = false;
+				agent = GameObject.Find ("Character").GetComponent<NavMeshAgent> ();
+				canvasControl = GameObject.FindGameObjectWithTag ("canvasControl");
+				showOptionsAfterMoving = false;
+		}
+		public void Move (Vector3 targetPos)
+		{
+				//Debug.Log ("target: x="+hit.point.x.ToString()+" y="+hit.point.y.ToString()+" z="+hit.point.z.ToString());
+				NavMesh.SamplePosition (targetPos, out closestNavPoint, 1000, 1);
+				//Debug.Log ("raycast hit x:"+targetPos.x.ToString()+" y:"+targetPos.y.ToString()+" z:"+targetPos.z.ToString());
+				//Debug.Log ("closest nav x:"+closestNavPoint.position.x.ToString()+" y:"+closestNavPoint.position.y.ToString()+" z:"+closestNavPoint.position.z.ToString());
+				GameObject.Find ("Character").transform.LookAt (closestNavPoint.position);
+				agent.SetDestination (closestNavPoint.position);
+				animator.SetFloat ("Speed", 2.5f);
+				/*
 		moving = true;
 		*/
-		//Turn ();
-	}
-
-	public void Move(GameObject target){
-		item = target;
-		showOptionsAfterMoving = true;
-		Vector3 direction =(target.transform.position-transform.position).normalized;
-		Vector3 newTarget = target.transform.position-1.5f*direction;
-		NavMesh.SamplePosition (newTarget,out closestNavPoint,1000,1);
-		GameObject.Find("Character").transform.LookAt (closestNavPoint.position);
-		agent.SetDestination (closestNavPoint.position);
-		animator.SetFloat ("Speed", 1);
-	}
-
-	void Turn() {
-		//newRot = Quaternion.LookRotation(targetPos - transform.localRotation.eulerAngles).eulerAngles;
-		//newRot = Quaternion.LookRotation (targetPos).eulerAngles;
-		//newRot = Quaternion.FromToRotation (transform.position, targetPos).eulerAngles;
-		newRot.y = Vector3.Angle (transform.forward, targetPos);
-		newRot.x = 0;
-		newRot.z = 0;
-		Vector3 cross = Vector3.Cross (transform.forward, targetPos);
-		if(cross.y < 0) newRot.y = -newRot.y;
-		//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(newRot), Time.deltaTime*10f);
-		//Debug.Log(cross.y);
-		Debug.Log(newRot.y);
-		//turning = true;
-		//animator.SetFloat ("Direction", newRot.y);
-		//animator.SetBool ("Turn", true);
-		//StartCoroutine(TurnReset ());
-	}
-	IEnumerator TurnReset() {
-		yield return new WaitForSeconds (0.2f);
-		//yield return new WaitForFixedUpdate ();
-		animator.SetBool ("Turn", false);
-		moving = true;
-	}
-	void Update () {
-		if(Vector3.Distance(transform.position,closestNavPoint.position)<1.0f){
-			animator.SetFloat ("Speed", 0);
+				//Turn ();
 		}
 
-		if(showOptionsAfterMoving){
-			if(agent.remainingDistance<0.1f){
-				canvasControl.GetComponent<CanvasControllerGV>().ShowItemOptions(item);
-				showOptionsAfterMoving = false;
-			}
+		public void Move (GameObject target)
+		{
+				item = target;
+				showOptionsAfterMoving = true;
+				Vector3 direction = (target.transform.position - transform.position).normalized;
+				Vector3 newTarget = target.transform.position - 1.5f * direction;
+				NavMesh.SamplePosition (newTarget, out closestNavPoint, 1000, 1);
+				GameObject.Find ("Character").transform.LookAt (closestNavPoint.position);
+				agent.SetDestination (closestNavPoint.position);
+				animator.SetFloat ("Speed", 2.5f);
 		}
 
-		/*
+		void Turn ()
+		{
+				//newRot = Quaternion.LookRotation(targetPos - transform.localRotation.eulerAngles).eulerAngles;
+				//newRot = Quaternion.LookRotation (targetPos).eulerAngles;
+				//newRot = Quaternion.FromToRotation (transform.position, targetPos).eulerAngles;
+				newRot.y = Vector3.Angle (transform.forward, targetPos);
+				newRot.x = 0;
+				newRot.z = 0;
+				Vector3 cross = Vector3.Cross (transform.forward, targetPos);
+				if (cross.y < 0)
+						newRot.y = -newRot.y;
+				//transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(newRot), Time.deltaTime*10f);
+				//Debug.Log(cross.y);
+				Debug.Log (newRot.y);
+				//turning = true;
+				//animator.SetFloat ("Direction", newRot.y);
+				//animator.SetBool ("Turn", true);
+				//StartCoroutine(TurnReset ());
+		}
+		IEnumerator TurnReset ()
+		{
+				yield return new WaitForSeconds (0.2f);
+				//yield return new WaitForFixedUpdate ();
+				animator.SetBool ("Turn", false);
+				moving = true;
+		}
+		void Update ()
+		{
+
+				distance = Vector3.Distance (transform.position, closestNavPoint.position);
+
+				if (distance > 20)
+						distance = 0;
+
+				if (GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerThoughts> ().inPod)
+						closestNavPoint.position = transform.position;
+
+				//kazutomo kai
+				if (distance < 0.4f) {
+						animator.SetFloat ("Speed", 0);
+				} else if (Input.GetKey (KeyCode.LeftShift)) {
+						agent.speed = 4;
+						animator.SetFloat ("Speed", 4.0f);
+				} else {
+						agent.speed = 2.5f;
+						animator.SetFloat ("Speed", 2.5f);
+				}
+
+				//kazutomo
+				/*		if (Input.GetKeyDown (KeyCode.LeftShift)) {
+			agent.speed = 4.0f;
+			animator.SetFloat("Speed",4.0f);
+		}
+		else if (Input.GetKeyUp (KeyCode.LeftShift)) {
+			agent.speed = 2.0f;
+			animator.SetFloat("Speed",1.4f);
+		}*/
+
+				if (showOptionsAfterMoving) {
+						if (agent.remainingDistance < 0.1f) {
+								canvasControl.GetComponent<CanvasControllerGV> ().ShowItemOptions (item);
+								showOptionsAfterMoving = false;
+						}
+				}
+
+				/*
 		currentPos = transform.position;
 		//targetPos = currentPos;
 		if (moving) {
@@ -94,7 +128,7 @@ public class Movement : MonoBehaviour {
 			//turning = true;
 		}
 		*/
-		/*if(animator.GetBool("Turn")&&!animator.IsInTransition(0)){
+				/*if(animator.GetBool("Turn")&&!animator.IsInTransition(0)){
 		animator.MatchTarget (transform.position,
 		Quaternion.Euler(newRot),
 		AvatarTarget.Root,
@@ -122,7 +156,7 @@ public class Movement : MonoBehaviour {
 		newRot = transform.position;
 		}*/
 
-		/*
+				/*
 		if(Vector3.Distance(currentPos, targetPos)>=1 && moving){
 			if(Vector3.Distance(currentPos, targetPos)>=5)animator.SetFloat("Speed", 5);
 			if(Vector3.Distance(currentPos, targetPos)<5) animator.SetFloat("Speed", 1);
@@ -135,5 +169,5 @@ public class Movement : MonoBehaviour {
 			moving = false;
 		}
 		*/
-	}
+		}
 }
